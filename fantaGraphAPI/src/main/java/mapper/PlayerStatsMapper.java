@@ -3,7 +3,6 @@ package mapper;
 import dao.BaseDAO;
 import model.PlayerStats;
 import org.apache.tinkerpop.gremlin.structure.Vertex;
-import utility.labels.Node;
 import utility.labels.Property;
 
 public class PlayerStatsMapper extends Mapper{
@@ -15,7 +14,7 @@ public class PlayerStatsMapper extends Mapper{
         try {
             seasonTeam = this.mapName(team);
         } catch (Exception e){
-            seasonTeam = this.mapString(stat, Node.TEAM);
+            seasonTeam = this.mapString(stat, Property.TEAM_LABEL[0]);
         }
         long playedMatches = this.mapLong(stat,Property.PLAYED_MATCHES[0]);
         long goals = this.mapLong(stat,Property.SCORED_GOALS[0]);

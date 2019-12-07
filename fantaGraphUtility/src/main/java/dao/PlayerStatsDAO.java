@@ -1,11 +1,12 @@
 package dao;
 
+import dao.BaseDAO;
 import org.apache.tinkerpop.gremlin.structure.Vertex;
 import utility.labels.Branch;
 import utility.labels.Node;
 import utility.labels.Property;
 
-public class PlayerStatsDAO extends BaseDAO{
+public class PlayerStatsDAO extends BaseDAO {
 
     public Vertex addPlayerStats(String year, String role, long playedMatches, long scoredGoals, long concededGoals,
                                  long ownGoals, long assists, long yellowCards, long redCards, double average,
@@ -21,13 +22,12 @@ public class PlayerStatsDAO extends BaseDAO{
                 .property(Property.CONCEDED_GOALS[0], concededGoals)
                 .property(Property.ASSISTS[0], assists).property(Property.YELLOW_CARDS[0], yellowCards)
                 .property(Property.RED_CARDS[0], redCards).property(Property.OWN_GOALS[0], ownGoals).next();
-
         if(teamVertex != null){
-            g.V(stats).as("a").V(teamVertex).addE(Branch.SEASON_TO_TEAM).from("a").next();
+            g.V(stats).as("a").V(team).addE(Branch.SEASON_TO_TEAM).from("a").next();
         } else {
-            stats.property(Node.TEAM, team);
+            stats.property(Property.TEAM_LABEL[0], team);
         }
-        this.g.tx().commit();
+        commit();
         return stats;
     }
 }

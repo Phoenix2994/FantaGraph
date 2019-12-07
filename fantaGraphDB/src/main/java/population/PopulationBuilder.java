@@ -186,9 +186,9 @@ public class PopulationBuilder {
                 String coach_place = (String) coach_info.get("birthplace");
                 String coach_data = (String) coach_info.get("birthdate");
                 String coach_nat = (String) coach_info.get("nationality");
-                Long coach_schema = (Long) coach_info.get("module");
+                String coach_schema = (String) coach_info.get("module");
                 coach_counter = coach_counter + 1;
-                final Vertex coach = coachDAO.addCoach(coach_name, coach_data, coach_place, coach_nat, coach_schema, coach_counter);
+                final Vertex coach = coachDAO.addCoach(coach_counter,coach_name, coach_data, coach_place, coach_nat, coach_schema);
                 //coach vertex added to graph
                 teamDAO.addStadiumToTeam(team, stadium);
 

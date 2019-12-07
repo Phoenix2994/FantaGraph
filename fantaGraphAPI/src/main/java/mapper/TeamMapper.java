@@ -21,9 +21,9 @@ public class TeamMapper extends Mapper {
         return Math.round(total/playersBirthdate.size() * 100.00) / 100.00;
     }
 
-    public long mapTeamId(Vertex team){ return this.mapLong(team, Property.TEAM_ID[0]); }
+    public long mapTeamId(Vertex team){ return this.mapLong(team,Property.TEAM_ID[0]); }
 
-    public Team VertexToTeam(Vertex team, Vertex coach, Vertex president, Vertex stadium, List<Object> playersBirthdate){
+    public Team VertexToModel(Vertex team, Vertex coach, Vertex president, Vertex stadium, List<Object> playersBirthdate){
 
         long id = this.mapTeamId(team);
         String name = this.mapName(team);

@@ -10,9 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import utility.labels.Node;
-import utility.labels.Property;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -23,13 +22,14 @@ public class StadiumController extends Controller{
 
 
     @RequestMapping(value = "/stadium/", method = RequestMethod.GET)
-    public Stadium[] getAllStadiums(){
-        List<Object> list = dao.getIdList(Property.STADIUM_ID[0]);
+    public List<Stadium> getAllStadiums(){
+        List<Path> paths = dao.getStadiumsPaths();
+        List<Stadium> result = new ArrayList<>();
 
-        Stadium[] result = new Stadium[list.size()];
-
-        for(int i = 0; i < list.size(); i++){
-            result[i] = this.getStadiumById(Long.parseLong(String.valueOf(list.get(i))));
+        for(Path temp : paths){
+            Vertex stadium = temp.get("stadium");
+            Vertex team = temp.get("team");
+            result.add(mapper.VertexToEntity(stadium,team));
         }
         return result;
     }
@@ -37,8 +37,8 @@ public class StadiumController extends Controller{
     @RequestMapping(value = "/stadium/{id}", method = RequestMethod.GET)
     public Stadium getStadiumById(@PathVariable long id){
         Path p = dao.getStadiumPathById(id);
-        Vertex stadium = p.get(Node.STADIUM);
-        Vertex team = p.get(Node.TEAM);
+        Vertex stadium = p.get("stadium");
+        Vertex team = p.get("team");
 
         return mapper.VertexToEntity(stadium,team);
     }

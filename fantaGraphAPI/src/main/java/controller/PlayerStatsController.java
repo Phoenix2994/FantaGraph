@@ -5,7 +5,6 @@ import mapper.PlayerStatsMapper;
 import model.PlayerStats;
 import org.apache.tinkerpop.gremlin.structure.Vertex;
 import org.springframework.web.bind.annotation.RestController;
-import utility.labels.Branch;
 
 import java.util.List;
 
@@ -20,19 +19,20 @@ public class PlayerStatsController extends Controller {
     }
 
     public PlayerStats[] getStatsFromPlayerVertex(Vertex player){
-        List<Vertex> list = dao.getListOutVertex(player, Branch.PLAYER_TO_SEASON);
+        List<Vertex> list = dao.getListOutVertex(player,"stats");
         PlayerStats[] result = new PlayerStats[list.size()];
 
         for (int i = 0; i < list.size(); i++) {
             Vertex v = list.get(i);
             Vertex team;
             try{
-                team = dao.getOutVertex(v, Branch.SEASON_TO_TEAM);
+                team = dao.getOutVertex(v, "stats");
             } catch (Exception e){
                 team = null;
             }
             result[i] = mapper.VertexToStats(list.get(i), team);
         }
+        dao.commit();
         return result;
     }
 }

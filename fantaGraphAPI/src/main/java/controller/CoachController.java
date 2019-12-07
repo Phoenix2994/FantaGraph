@@ -1,5 +1,6 @@
 package controller;
 
+import dao.CoachDAO;
 import mapper.CoachMapper;
 import model.Coach;
 import org.apache.tinkerpop.gremlin.process.traversal.Path;
@@ -8,9 +9,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import utility.labels.Branch;
-import utility.labels.Node;
-import utility.labels.Property;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -19,28 +17,30 @@ import java.util.List;
 public class CoachController extends Controller {
 
     private CoachMapper mapper = new CoachMapper();
+    private CoachDAO dao = new CoachDAO();
 
     public CoachController(){
     }
 
     @RequestMapping(value = "/coach/", method = RequestMethod.GET)
     public Coach[] getAllCoaches(){
-        List<Object> list = this.g.V().has(Property.COACH_ID[0]).order().by(Property.NAME[0]).values(Property.COACH_ID[0]).toList();
+        List<Object> list = dao.getIdList("coach id");
 
         Coach[] allCoaches = new Coach[list.size()];
         for(int i = 0; i < list.size(); i++){
             allCoaches[i] = getCoachById(Long.parseLong(String.valueOf(list.get(i))));
         }
+        dao.commit();
         return allCoaches;
     }
 
     @RequestMapping(value = "/coach/{id}", method = RequestMethod.GET)
     public  Coach getCoachById(@PathVariable long id){
-        Path p = this.g.V().has(Property.COACH_ID[0], id).as(Node.COACH)
-                .out(Branch.COACH_TO_TEAM).as(Node.TEAM).path().next();
+        Path p = dao.getCoachPathById(id);
+        dao.commit();
 
-        Vertex coach = p.get(Node.COACH);
-        Vertex team = p.get(Node.TEAM);
+        Vertex coach = p.get("coach");
+        Vertex team = p.get("team");
 
         return mapper.VertexToEntity(coach,team);
     }

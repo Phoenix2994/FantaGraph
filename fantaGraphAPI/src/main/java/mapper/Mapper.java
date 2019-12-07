@@ -25,7 +25,7 @@ public class Mapper {
     }
 
     public String mapName(Vertex v){
-        return this.mapString(v, Property.NAME[0]);
+        return this.mapString(v,Property.NAME[0]);
     }
 
     public String mapBirthplace(Vertex v){

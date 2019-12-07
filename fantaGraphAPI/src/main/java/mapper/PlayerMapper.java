@@ -2,6 +2,7 @@ package mapper;
 
 import controller.PlayerStatsController;
 import model.Player;
+
 import model.PlayerStats;
 import org.apache.tinkerpop.gremlin.structure.Vertex;
 import utility.labels.Property;
@@ -13,9 +14,9 @@ import static java.time.temporal.ChronoUnit.YEARS;
 
 public class PlayerMapper extends Mapper {
 
-    public long mapPlayerId(Vertex president){ return this.mapLong(president,Property.PLAYER_ID[0]); }
+    public long mapPlayerId(Vertex player){ return this.mapLong(player, Property.PLAYER_ID[0]); }
 
-    public Player VertexToPlayer(Vertex player, List<Vertex> statList, Vertex team, Vertex prosecutor, boolean showStats){
+    public Player VertexToModel(Vertex player, List<Vertex> statList, Vertex team, Vertex prosecutor, boolean showStats){
 
         long id = this.mapPlayerId(player);
         String name = this.mapName(player);
@@ -23,7 +24,7 @@ public class PlayerMapper extends Mapper {
         LocalDate birthdate = this.mapBirthdate(player);
         String nationality = this.mapNationality(player);
         long age = YEARS.between(birthdate, today);
-        String height = this.mapString(player, Property.HEIGHT[0]);
+        String height = this.mapString(player,Property.HEIGHT[0]);
         String position = this.mapString(player,Property.ROLE[0]);
         String mainfoot = this.mapString(player,Property.MAIN_FOOT[0]);
         String img = this.mapImg(player);

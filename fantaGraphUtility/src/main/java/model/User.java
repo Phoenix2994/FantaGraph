@@ -1,6 +1,5 @@
 package model;
 
-import model.FantaTeam;
 
 public class User {
     private final long id;

@@ -5,30 +5,25 @@ import mapper.PresidentMapper;
 import model.President;
 import org.apache.tinkerpop.gremlin.process.traversal.Path;
 import org.apache.tinkerpop.gremlin.structure.Vertex;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-import utility.labels.Node;
-import utility.labels.Property;
+import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 public class PresidentController extends Controller {
     PresidentMapper mapper = new PresidentMapper();
     PresidentDAO dao = new PresidentDAO();
-    public PresidentController(){
-    }
 
     @RequestMapping(value = "/president/", method = RequestMethod.GET)
-    public President[] getAllPresidents(){
-        List<Object> list = dao.getIdList(Property.PRESIDENT_ID[0]);
+    public List<President> getAllPresidents(){
+        List<Path> paths = dao.getPresidentsPaths();
+        List<President> result = new ArrayList<>();
 
-        President[] result = new President[list.size()];
-        for(int i = 0; i < list.size(); i++){
-            result[i] = this.getPresidentById(Long.parseLong(String.valueOf(list.get(i))));
+        for(Path temp : paths){
+            Vertex president = temp.get("president");
+            Vertex team = temp.get("team");
+            result.add(mapper.VertexToEntity(president,team));
         }
         return result;
     }
@@ -36,8 +31,8 @@ public class PresidentController extends Controller {
     @RequestMapping(value = "/president/{id}", method = RequestMethod.GET)
     public President getPresidentById(@PathVariable long id){
         Path p = dao.getPresidentPathById(id);
-        Vertex president = p.get(Node.PRESIDENT);
-        Vertex team = p.get(Node.TEAM);
+        Vertex president = p.get("president");
+        Vertex team = p.get("team");
 
         return mapper.VertexToEntity(president, team);
     }

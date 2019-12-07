@@ -8,7 +8,7 @@ import java.time.LocalDate;
 
 public class CoachMapper extends Mapper {
 
-    public long mapCoachId(Vertex coach){ return this.mapLong(coach,Property.COACH_ID[0]); }
+    public long mapCoachId(Vertex coach){ return this.mapLong(coach, Property.COACH_ID[0]); }
 
     public Coach VertexToEntity(Vertex coach, Vertex team){
         long id = this.mapCoachId(coach);
@@ -19,7 +19,7 @@ public class CoachMapper extends Mapper {
         LocalDate birthdate = LocalDate.parse(tmp.split(" ")[0]);
         String birthplace = this.mapBirthplace(coach);
         String nationality = this.mapNationality(coach);
-        String module = this.mapString(coach, Property.MODULE[0]);
+        String module = this.mapString(coach,Property.MODULE[0]);
         String teamName = this.mapName(team);
         long teamId = this.mapLong(team,Property.TEAM_ID[0]);
 

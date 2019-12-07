@@ -15,25 +15,40 @@
         <java.version>1.8</java.version>
     </properties>
     <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.1.6.RELEASE</version>
+        <artifactId>fantaGraph</artifactId>
+        <groupId>com.fantagraph</groupId>
+        <version>1.0</version>
     </parent>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-dependencies</artifactId>
+            <version>2.2.0.RELEASE</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+            <version>2.2.0.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
+            <version>2.2.0.RELEASE</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.jayway.jsonpath</groupId>
             <artifactId>json-path</artifactId>
             <scope>test</scope>
+            <version>2.4.0</version>
         </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.fasterxml.jackson.datatype</groupId>-->
+<!--            <artifactId>jackson-datatype-jsr310</artifactId>-->
+<!--            <version>2.4.0</version>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>org.janusgraph</groupId>
             <artifactId>janusgraph-core</artifactId>
@@ -91,28 +106,6 @@
                     <source>1.8</source>
                     <target>1.8</target>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-install-plugin</artifactId>
-                <version>2.5.1</version>
-                <configuration>
-                    <groupId>com.fantagraph</groupId>
-                    <artifactId>fantaGraphUtility</artifactId>
-                    <version>1.0</version>
-                    <packaging>jar</packaging>
-                    <file>${basedir}/dependencies/fantaGraphUtility-1.0.jar</file>
-                    <generatePom>true</generatePom>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>install-jar-lib</id>
-                        <goals>
-                            <goal>install-file</goal>
-                        </goals>
-                        <phase>validate</phase>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>

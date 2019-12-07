@@ -1,5 +1,6 @@
 package dao;
 
+import dao.BaseDAO;
 import org.apache.tinkerpop.gremlin.process.traversal.Path;
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversal;
 import org.apache.tinkerpop.gremlin.structure.Vertex;
@@ -12,9 +13,19 @@ import java.util.List;
 public class FantaTeamDAO extends BaseDAO {
 
     public Path getFantaTeamPathById(long id){
-        return this.g.V().has(Property.FANTATEAM_ID[0], id).as(Node.TEAM).in(Branch.USER_TO_FANTATEAM).as(Node.USER)
+        Path result = this.g.V().has(Property.FANTATEAM_ID[0], id).as("team").in(Branch.USER_TO_FANTATEAM).as("user")
                 .path().next();
+        commit();
+        return result;
     }
+
+    public List<Path> getAllFantaTeamsPaths(){
+        List<Path> result = this.g.V().has(Property.FANTATEAM_ID[0]).as("team").in(Branch.USER_TO_FANTATEAM).as("user")
+                .path().toList();
+        commit();
+        return result;
+    }
+
     public List<Object> getIdList(){
         return super.getIdList(Property.FANTATEAM_ID[0]);
     }
@@ -38,7 +49,7 @@ public class FantaTeamDAO extends BaseDAO {
 
         if(!check) {
             Vertex player = this.getVertexById(Property.PLAYER_ID[0], playerId);
-            this.g.V(player).as("a").V(team).addE(Branch.PLAYER_TO_FANTATEAM).from("a").next();
+            this.addEdge(player,team,Branch.PLAYER_TO_FANTATEAM);
             return true;
         }
         else return false;
@@ -46,20 +57,34 @@ public class FantaTeamDAO extends BaseDAO {
 
     public boolean removeFantaTeam(long teamId){
         this.g.V().has(Property.FANTATEAM_ID[0], teamId).drop().iterate();
+        commit();
         return true;
     }
 
     public boolean removeAllFantaTeams(){
         this.g.V().has(Property.FANTATEAM_ID[0]).drop().iterate();
+        commit();
         return true;
     }
 
     public boolean removePlayerFromFantaTeam(long teamId, long playerId){
         GraphTraversal<Vertex, Object> e = this.g.V().has(Property.PLAYER_ID[0],playerId).outE().as("e").inV().has(Property.FANTATEAM_ID[0], teamId).select("e").drop().iterate();
+        commit();
         return true;
     }
 
     public List<Object> getPlayersIdList(long id){
-        return this.g.V().has(Property.FANTATEAM_ID[0], id).in(Branch.PLAYER_TO_FANTATEAM).values(Property.PLAYER_ID[0]).toList();
+        List<Object> result = this.g.V().has(Property.FANTATEAM_ID[0], id).in(Branch.PLAYER_TO_FANTATEAM).values(Property.PLAYER_ID[0]).toList();
+        commit();
+        return result;
+    }
+
+    public List<Path> getPlayersPaths(long id){
+        List<Path> result = this.g.V().has(Property.FANTATEAM_ID[0],id).in(Branch.PLAYER_TO_FANTATEAM).as("player")
+                .out(Branch.PLAYER_TO_TEAM).as("team")
+                .select("player").out(Branch.PLAYER_TO_PROSECUTOR).as("prosecutor")
+                .path().toList();
+        commit();
+        return result;
     }
 }
