@@ -7,7 +7,7 @@ import utility.labels.Property;
 
 public class ProsecutorMapper extends Mapper {
 
-    public long mapProsecutorId(Vertex prosecutor){ return this.mapLong(prosecutor, Property.PROSECUTOR_ID[0]); }
+    public long mapProsecutorId(Vertex prosecutor){ return this.mapLong(prosecutor, Property.PROSECUTOR_ID); }
 
     public Prosecutor VertexToEntity(Vertex prosecutor){
         String name = this.mapName(prosecutor);

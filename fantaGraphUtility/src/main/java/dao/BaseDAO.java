@@ -115,7 +115,7 @@ public class BaseDAO {
     }
 
 
-    public void commit(){ g.tx().commit(); }
+    public void commit(){ this.g.tx().commit(); }
     public void close(){
         graph.close();
     }

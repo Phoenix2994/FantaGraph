@@ -21,7 +21,7 @@ public class TeamMapper extends Mapper {
         return Math.round(total/playersBirthdate.size() * 100.00) / 100.00;
     }
 
-    public long mapTeamId(Vertex team){ return this.mapLong(team,Property.TEAM_ID[0]); }
+    public long mapTeamId(Vertex team){ return this.mapLong(team,Property.TEAM_ID); }
 
     public Team VertexToModel(Vertex team, Vertex coach, Vertex president, Vertex stadium, List<Object> playersBirthdate){
 
@@ -29,13 +29,13 @@ public class TeamMapper extends Mapper {
         String name = this.mapName(team);
         long players = playersBirthdate.size();
         double avgAge = getAvgAge(playersBirthdate);
-        String logo = this.mapString(team,Property.LOGO[0]);
+        String logo = this.mapString(team,Property.LOGO);
         String coachName = this.mapName(coach);
-        long coachId = this.mapLong(coach, Property.COACH_ID[0]);
+        long coachId = this.mapLong(coach, Property.COACH_ID);
         String presidentName = this.mapName(president);
-        long presidentId = this.mapLong(president, Property.PRESIDENT_ID[0]);
+        long presidentId = this.mapLong(president, Property.PRESIDENT_ID);
         String stadiumName = this.mapName(stadium);
-        long stadiumId = this.mapLong(stadium, Property.STADIUM_ID[0]);
+        long stadiumId = this.mapLong(stadium, Property.STADIUM_ID);
 
         return new Team(id, name, players, avgAge, logo, coachName, coachId, presidentName, presidentId, stadiumName, stadiumId);
     }

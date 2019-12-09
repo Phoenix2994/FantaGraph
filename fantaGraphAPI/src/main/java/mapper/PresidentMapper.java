@@ -8,7 +8,7 @@ import java.time.LocalDate;
 
 public class PresidentMapper extends Mapper {
 
-    public long mapPresidentId(Vertex president){ return this.mapLong(president, Property.PRESIDENT_ID[0]); }
+    public long mapPresidentId(Vertex president){ return this.mapLong(president, Property.PRESIDENT_ID); }
 
     public President VertexToEntity(Vertex president, Vertex team){
         String name = this.mapName(president);
@@ -17,7 +17,7 @@ public class PresidentMapper extends Mapper {
         String birthplace = this.mapBirthplace(president);
         String nationality = this.mapNationality(president);
         String ownedTeamName = this.mapName(team);
-        long ownedTeamId = this.mapLong(team,Property.TEAM_ID[0]);
+        long ownedTeamId = this.mapLong(team,Property.TEAM_ID);
 
         return new President(id,name,birthdate,birthplace,nationality,ownedTeamName,ownedTeamId);
     }

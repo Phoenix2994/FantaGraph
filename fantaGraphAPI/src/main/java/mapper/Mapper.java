@@ -25,22 +25,22 @@ public class Mapper {
     }
 
     public String mapName(Vertex v){
-        return this.mapString(v,Property.NAME[0]);
+        return this.mapString(v,Property.NAME);
     }
 
     public String mapBirthplace(Vertex v){
-        return this.mapString(v, Property.BIRTHPLACE[0]);
+        return this.mapString(v, Property.BIRTHPLACE);
     }
 
     public LocalDate mapBirthdate(Vertex v){
-        return this.mapLocalDate(v,Property.BIRTHDATE[0]);
+        return this.mapLocalDate(v,Property.BIRTHDATE);
     }
 
     public String mapNationality(Vertex v){
-        return this.mapString(v, Property.NATIONALITY[0]);
+        return this.mapString(v, Property.NATIONALITY);
     }
 
     public String mapImg(Vertex v){
-        return this.mapString(v,Property.IMG[0]);
+        return this.mapString(v,Property.IMG);
     }
 }

@@ -55,7 +55,8 @@ public class PopulationBuilder {
                         player_img, player_id, player_quot);
 
                 // ADD Player-Team edge
-                Vertex team = g.V().hasLabel(Node.TEAM).has(Property.NAME[0], (team_name + " ")
+                System.out.println(team_name);
+                Vertex team = g.V().hasLabel(Node.TEAM).has(Property.NAME, (team_name + " ")
                         .split(" ")[0].toUpperCase()).next();
 
                 playerDAO.addTeamToPlayer(player, team);
@@ -78,12 +79,12 @@ public class PopulationBuilder {
                         Long yellow_cards = (Long) season_stats.get("amm");
                         Long red_cards = (Long) season_stats.get("esp");
                         Long own_goals = (Long) season_stats.get("aut");
-                        if (g.V().hasLabel(Node.TEAM).has(Property.NAME[0], playing_team)
+                        if (g.V().hasLabel(Node.TEAM).has(Property.NAME, playing_team)
                                 .hasNext()) {
-                            Vertex season_team = g.V().hasLabel(Node.TEAM).has(Property.NAME[0],
+                            Vertex season_team = g.V().hasLabel(Node.TEAM).has(Property.NAME,
                                     playing_team).next();
 
-                            LOGGER.info(season_team.toString());
+                            LOGGER.info(playing_team);
 
                             //ADD Player Stats vertex and Player-Player Stats edge
                             final Vertex player_season_stats = playerStatsDAO.addPlayerStats(season_year, role, played_matches, scored_goals, conceded_goals,
@@ -101,14 +102,14 @@ public class PopulationBuilder {
                     }
                 }
                 // Check and ADD Prosecutor vertex
-                boolean exist = g.V().hasLabel(Node.PROSECUTOR).has(Property.NAME[0], prosecutor_name).hasNext();
+                boolean exist = g.V().hasLabel(Node.PROSECUTOR).has(Property.NAME, prosecutor_name).hasNext();
                 final Vertex prosecutor;
                 if (!exist) {
                     prosecutor_counter = prosecutor_counter + 1;
                     prosecutor = prosecutorDAO.addProsecutor(prosecutor_counter, prosecutor_name);
 
                 } else {
-                    prosecutor = g.V().hasLabel(Node.PROSECUTOR).has(Property.NAME[0], prosecutor_name).next();
+                    prosecutor = g.V().hasLabel(Node.PROSECUTOR).has(Property.NAME, prosecutor_name).next();
                 }
                 // ADD Player-Prosecutor edge
                 playerDAO.addProsecutorToPlayer(player, prosecutor);
@@ -144,14 +145,14 @@ public class PopulationBuilder {
                 String logo = (String) team_info.get("logo");
                 team_counter = team_counter + 1;
                 final Vertex team = teamDAO.addTeam(name, logo, team_counter);
-
+                System.out.println(name);
                 //team vertex added to graph
                 JSONObject stadium_info = (JSONObject) team_info.get("stadium");
                 String stadium_name = (String) stadium_info.get("name");
                 String stadium_place = (String) stadium_info.get("city");
                 Long stadium_fans = (Long) stadium_info.get("capacity");
                 String stadium_img = (String) stadium_info.get("img");
-                boolean stadium_exist = g.V().hasLabel(Node.STADIUM).has(Property.NAME[0], stadium_name).hasNext();
+                boolean stadium_exist = g.V().hasLabel(Node.STADIUM).has(Property.NAME, stadium_name).hasNext();
                 final Vertex stadium;
                 if (!stadium_exist) {
                     stadium_counter = stadium_counter + 1;
@@ -159,16 +160,16 @@ public class PopulationBuilder {
                     stadium = stadiumDAO.addStadium(stadium_counter, stadium_name, stadium_place, stadium_fans, stadium_img);
 
                 } else {
-                    stadium = g.V().hasLabel(Node.STADIUM).has(Property.NAME[0], stadium_name).next();
+                    stadium = g.V().hasLabel(Node.STADIUM).has(Property.NAME, stadium_name).next();
                 }
                 boolean league_exist = g.V().hasLabel(Node.LEAGUE)
-                        .has(Property.NAME[0], "Serie A TIM").hasNext();
+                        .has(Property.NAME, "Serie A TIM").hasNext();
                 final Vertex league;
                 if (!league_exist) {
-                    league = g.addV(Node.LEAGUE).property(Property.NAME[0], "Serie A TIM")
-                            .property(Property.COUNTRY[0], "ITALIA").next();
+                    league = g.addV(Node.LEAGUE).property(Property.NAME, "Serie A TIM")
+                            .property(Property.COUNTRY, "ITALIA").next();
                 } else {
-                    league = g.V().hasLabel(Node.LEAGUE).has(Property.NAME[0], "Serie A TIM").next();
+                    league = g.V().hasLabel(Node.LEAGUE).has(Property.NAME, "Serie A TIM").next();
                 }
                 //stadium vertex added to graph
                 JSONObject president_info = (JSONObject) team_info.get("president");
@@ -186,7 +187,7 @@ public class PopulationBuilder {
                 String coach_place = (String) coach_info.get("birthplace");
                 String coach_data = (String) coach_info.get("birthdate");
                 String coach_nat = (String) coach_info.get("nationality");
-                String coach_schema = (String) coach_info.get("module");
+                long coach_schema = (long) coach_info.get("module");
                 coach_counter = coach_counter + 1;
                 final Vertex coach = coachDAO.addCoach(coach_counter,coach_name, coach_data, coach_place, coach_nat, coach_schema);
                 //coach vertex added to graph

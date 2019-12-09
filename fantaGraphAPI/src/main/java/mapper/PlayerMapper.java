@@ -14,7 +14,7 @@ import static java.time.temporal.ChronoUnit.YEARS;
 
 public class PlayerMapper extends Mapper {
 
-    public long mapPlayerId(Vertex player){ return this.mapLong(player, Property.PLAYER_ID[0]); }
+    public long mapPlayerId(Vertex player){ return this.mapLong(player, Property.PLAYER_ID); }
 
     public Player VertexToModel(Vertex player, List<Vertex> statList, Vertex team, Vertex prosecutor, boolean showStats){
 
@@ -24,20 +24,20 @@ public class PlayerMapper extends Mapper {
         LocalDate birthdate = this.mapBirthdate(player);
         String nationality = this.mapNationality(player);
         long age = YEARS.between(birthdate, today);
-        String height = this.mapString(player,Property.HEIGHT[0]);
-        String position = this.mapString(player,Property.ROLE[0]);
-        String mainfoot = this.mapString(player,Property.MAIN_FOOT[0]);
+        String height = this.mapString(player,Property.HEIGHT);
+        String position = this.mapString(player,Property.ROLE);
+        String mainfoot = this.mapString(player,Property.MAIN_FOOT);
         String img = this.mapImg(player);
         long quot = 0;
         try{
-            quot = this.mapLong(player,Property.QUOT[0]);
+            quot = this.mapLong(player,Property.QUOT);
         }catch (Exception e){
             System.out.println("Error id: " + id);
         }
         String teamName = this.mapName(team);
-        long teamId = this.mapLong(team,Property.TEAM_ID[0]);
+        long teamId = this.mapLong(team,Property.TEAM_ID);
         String prosecutorName = this.mapName(prosecutor);
-        long prosecutorId = this.mapLong(prosecutor,Property.PROSECUTOR_ID[0]);
+        long prosecutorId = this.mapLong(prosecutor,Property.PROSECUTOR_ID);
 
         PlayerStats[] stats;
         if(showStats){

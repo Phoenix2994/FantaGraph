@@ -8,7 +8,7 @@ import java.util.List;
 
 public class FantaTeamMapper extends TeamMapper {
 
-    public long mapFantaTeamId(Vertex fantateam){ return this.mapLong(fantateam, Property.FANTATEAM_ID[0]); }
+    public long mapFantaTeamId(Vertex fantateam){ return this.mapLong(fantateam, Property.FANTATEAM_ID); }
 
     public FantaTeam VertexToModel(Vertex fantateam, Vertex user, List<Object> playersBirthdate){
 
@@ -17,8 +17,8 @@ public class FantaTeamMapper extends TeamMapper {
         long players = playersBirthdate.size();
         double avgAge = getAvgAge(playersBirthdate);
         String logo = "";
-        String username = this.mapString(user,Property.USERNAME[0]);
-        long ownerId = this.mapLong(user,Property.USER_ID[0]);
+        String username = this.mapString(user,Property.USERNAME);
+        long ownerId = this.mapLong(user,Property.USER_ID);
 
         return new FantaTeam(id, name, players, avgAge, logo, username, ownerId);
     }
