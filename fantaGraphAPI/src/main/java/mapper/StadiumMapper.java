@@ -10,7 +10,7 @@ public class StadiumMapper extends Mapper {
 
     public Stadium VertexToEntity(Vertex stadium, Vertex team){
 
-        String name = this.mapName(team);
+        String name = this.mapName(stadium);
         long id = this.mapStadiumId(stadium);
         String city = this.mapString(stadium, Property.CITY);
         long capacity = this.mapLong(stadium, Property.CAPACITY);

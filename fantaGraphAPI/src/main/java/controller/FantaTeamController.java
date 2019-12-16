@@ -103,7 +103,7 @@ public class FantaTeamController extends Controller{
         return result;
     }
 
-    @RequestMapping(value = "/fantateam/{teamId}/player/{playerId}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/fantateam/{teamId}/player/{playerId}", method = RequestMethod.POST)
     public boolean removePlayer(@PathVariable long playerId, @PathVariable long teamId ) {
         dao.removePlayerFromFantaTeam(teamId, playerId);
         dao.commit();
